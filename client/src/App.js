@@ -8,15 +8,14 @@ import BubblePage from "./components/BubblePage"
 import "./styles.scss";
 
 function App() {
-  // const [colorList, setColorList] = useState([]);
+  
   return (
     <Router>
       <div className="App">
       <Route exact path="/" component={SplashPage} />
         <Route exact path="/login" component={Login} />
         {/* 
-          Build a PrivateRoute component that will 
-          display BubblePage when you're authenticated 
+          Build a PrivateRoute component
         */
      <PrivateRoute path='/bubblepage' component={BubblePage} />
        }

@@ -11,28 +11,64 @@ const ColorList = ({ colors, updateColors }) => {
   console.log(colors);
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
+  // const [colorToAdd, setColorToAdd] = useState(initialColor);
 
-  const editColor = color => {
+  // let copy = [...colors]
+
+  const editColor = colors => {
     setEditing(true);
-    setColorToEdit(color);
+    setColorToEdit(colors);
+    // setColorToAdd(color);
   };
+
+  // const saveEdit = e => {
+  //   e.preventDefault();
+  //   axiosWithAuth()
+  //     .put(`http://localhost:5000/api/colors/${colorToEdit.id}`, colorToEdit)
+  //     .then(res => {
+  //       updateColors(copy.map(element => {
+  //         if (element.id === res.data.id){
+  //           console.log('OhYeah')
+  //           return res.data
+  //           //element = colorToEdit
+  //         } else {
+  //           console.log('Error')
+  //           return element
+  //         }
+  //       }))
+  //     })
+  // };
+
+
 
   const saveEdit = e => {
     e.preventDefault();
     axiosWithAuth()
-      .put(`/colors/${colorToEdit.id}`, colorToEdit)
-      .then(response => {
+    .put(`/colors/${colorToEdit.id}`, colorToEdit)
+      .then(res => {
         updateColors([
           ...colors.filter(color => color.id !== colorToEdit.id),
-          response.data,
+          res.data
         ])
-        setEditing(false);
+         
+          setEditing(false);
+          setColorToEdit(initialColor);
       })
-      .catch(error => console.log(error));
-    // Make a put request to save your updated color
-    // think about where will you get the id from...
-    // where is is saved right now?
-  };
+    };
+        // .catch(error => console.log(error));
+  
+
+  // const addColor = e => {
+  //   e.preventDefault();
+  //   axiosWithAuth() 
+  //   .put(`/colors/${colorToAdd.id}`, colorToAdd)
+  //   .then(response => {
+  //     updateColors([
+  //       ...colors.filter(color => color.id !== colorToAdd.id),
+  //       response.data,
+  //     ])
+  //   })
+  // }
 
   const deleteColor = colorToDelete => {
     axiosWithAuth()
@@ -41,7 +77,7 @@ const ColorList = ({ colors, updateColors }) => {
         updateColors(colors.filter(color => color.id !== colorToDelete.id));
       })
       .catch(error => console.log(error));
-    // make a delete request to delete this color
+    
   };
 
   return (
@@ -89,14 +125,36 @@ const ColorList = ({ colors, updateColors }) => {
           </label>
           <div className="button-row">
             <button type="submit">save</button>
+            {/* <button type="addColor">add color</button> */}
             <button onClick={() => setEditing(false)}>cancel</button>
           </div>
         </form>
       )}
       <div className="spacer" />
+      {/* <form onSubmit={addColor}> */}
+        {/* <legend>add color</legend>
+        <label>
+          color name: */}
+          {/* <input 
+          onChange={e => 
+          setColorToAdd({...colorToAdd, color: e.target.value})
+        }
+        value={colorToAdd.color}
+        /> */}
+        {/* </label>
+      </form> */}
       {/* stretch - build another form here to add a color */}
     </div>
   );
-};
+    };
 
 export default ColorList;
+
+// axiosWithAuth()
+//         .get("/colors")
+      
+//       .then(response => { 
+//         console.log(response);
+//         updateColors(response.data)
+//       })
+//       .catch(error => console.log(error));
